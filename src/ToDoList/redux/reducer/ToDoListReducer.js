@@ -1,4 +1,10 @@
-import { add_task, del_task, done_task, edit_task } from "../type/ToDoListType";
+import {
+  add_task,
+  del_task,
+  done_task,
+  edit_task,
+  update_task,
+} from "../type/ToDoListType";
 
 const initialState = {
   taskList: [
@@ -23,7 +29,7 @@ export default (state = initialState, action) => {
       let index = taskListUpdate.findIndex(
         (task) => task.taskName === action.newTask.taskName
       );
-      if (index != -1) {
+      if (index !== -1) {
         alert("Trùng rồi, mời nhập lại!");
         return { ...state };
       }
@@ -59,6 +65,23 @@ export default (state = initialState, action) => {
 
     case edit_task: {
       return { ...state, taskEdit: action.task };
+    }
+    case update_task: {
+      state.taskEdit = { ...state.taskEdit, taskName: action.taskName };
+
+      let taskListUpdate = [...state.taskList];
+
+      let index = taskListUpdate.findIndex(
+        (task) => task.id === state.taskEdit.id
+      );
+
+      if (index !== -1) {
+        taskListUpdate[index] = state.taskEdit;
+      }
+
+      state.taskList = taskListUpdate;
+
+      return { ...state };
     }
 
     default:

@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { addTaskAction } from "./redux/action/ToDoListAction";
+import { addTaskAction, updateTaskAction } from "./redux/action/ToDoListAction";
 
 class ToDoInput extends Component {
   state = {
@@ -66,7 +66,12 @@ class ToDoInput extends Component {
             >
               Thêm <i class="fa fa-plus"></i>
             </button>
-            <button className="btn btn-warning ml-2 px-3">
+            <button
+              onClick={() => {
+                this.props.dispatch(updateTaskAction(this.state.taskName));
+              }}
+              className="btn btn-warning ml-2 px-3"
+            >
               Cập nhật <i class="fa fa-sync"></i>
             </button>
           </div>
@@ -88,6 +93,7 @@ const MapStateToProps = (state) => {
   return {
     taskName: state.ToDoListReducer.taskList.taskName,
     taskEdit: state.ToDoListReducer.taskEdit,
+    taskListUpdate: state.ToDoListReducer.taskListUpdate,
   };
 };
 
